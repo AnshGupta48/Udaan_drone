@@ -1,0 +1,160 @@
+<?xml version="1.0"?>
+<robot name="udaan">
+
+    <material name="grey">
+        <color rgba="0.5 0.5 0.5 1" />
+    </material>
+
+    <material name="blue">
+        <color rgba="0 0 1 1" />
+    </material>
+    <link name="base_link">
+        <visual>
+            <geometry>
+                <box size="0.15 0.15 0.05" />
+            </geometry>
+            <origin xyz="0 0 0" rpy="0 0 0" />
+        </visual>
+    </link>
+ <!--top right part-->
+    <link name="top_right_arm">
+        <visual>
+            <geometry>
+                <box size="0.225 0.04 0.05" />
+            </geometry>
+            <origin xyz="0.075 0.075 0" rpy="0 0 0.785" />
+            <material name="grey" />
+        </visual>
+    </link>
+
+    <link name="motor_top_right_arm">
+        <visual>
+            <geometry>
+                <cylinder radius="0.015" length="0.05" />
+            </geometry>
+            <origin xyz="0 0 0" rpy="0 0 0" />
+            <material name="blue" />
+        </visual>
+    </link>
+<!--top left part-->
+    <link name="top_left_arm">
+        <visual>
+            <geometry>
+                <box size="0.225 0.04 0.05" />
+            </geometry>
+            <origin xyz="-0.075 0.075 0" rpy="0 0 -0.785" />
+            <material name="grey" />
+        </visual>
+    </link>
+
+    <link name="motor_top_left_arm">
+        <visual>
+            <geometry>
+                <cylinder radius="0.015" length="0.05" />
+            </geometry>
+            <origin xyz="0 0 0" rpy="0 0 0" />
+            <material name="blue" />
+        </visual>
+    </link>
+
+<!--bottom right part-->
+    <link name="bottom_right_arm">
+        <visual>
+            <geometry>
+                <box size="0.225 0.04 0.05" />
+            </geometry>
+            <origin xyz="0.075 -0.075 0" rpy="0 0 -0.785" />
+            <material name="grey" />
+        </visual>
+    </link>
+
+    <link name="motor_bottom_right_arm">
+        <visual>
+            <geometry>
+                <cylinder radius="0.015" length="0.05" />
+            </geometry>
+            <origin xyz="0 0 0" rpy="0 0 0" />
+            <material name="blue" />
+        </visual>
+    </link>
+<!--bottom left parts-->
+    <link name="bottom_left_arm">
+        <visual>
+            <geometry>
+                <box size="0.225 0.04 0.05" />
+            </geometry>
+            <origin xyz="-0.075 -0.075 0" rpy="0 0 -2.35" />
+            <material name="grey" />
+        </visual>
+    </link>
+
+    <link name="motor_bottom_left_arm">
+        <visual>
+            <geometry>
+                <cylinder radius="0.015" length="0.05" />
+            </geometry>
+            <origin xyz="0 0 0" rpy="0 0 0" />
+            <material name="blue" />
+        </visual>
+    </link>
+
+<!--landing gears-->
+
+
+<!--top right joints-->
+    <joint name="base_top_right_arm_joint" type="fixed">
+        <parent link="base_link" />
+        <child link="top_right_arm" />
+        <origin xyz="0.065 0.065 0" rpy="0 0 0" />
+    </joint>
+
+    <joint name="top_right_arm_motor_joint" type="continuous">
+    <parent link="top_right_arm" />
+    <child link="motor_top_right_arm" />
+    <origin xyz="0.125 0.125 0" rpy="0 0 0" />
+    <axis xyz="0 0 -1" />
+    </joint>
+<!--top left joints-->
+    <joint name="base_top_left_arm_joint" type="fixed">
+        <parent link="base_link" />
+        <child link="top_left_arm" />
+        <origin xyz="-0.065 0.065 0" rpy="0 0 0" />
+    </joint>
+
+    <joint name="top_left_arm_motor_joint" type="continuous">
+        <parent link="top_left_arm" />
+        <child link="motor_top_left_arm" />
+        <origin xyz="-0.125 0.125 0" rpy="0 0 0" />
+        <axis xyz="0 0 1" />
+    </joint>
+
+<!--bottom right joints-->
+    <joint name="base_bottom_right_arm_joint" type="fixed">
+        <parent link="base_link" />
+        <child link="bottom_right_arm" />
+        <origin xyz="0.065 -0.065 0" rpy="0 0 0" />
+    </joint>
+
+    <joint name="bottom_right_arm_motor_joint" type="continuous">
+    <parent link="bottom_right_arm" />
+    <child link="motor_bottom_right_arm" />
+    <origin xyz="0.125 -0.125 0" rpy="0 0 0" />
+    <axis xyz="0 0 1" />
+    </joint>
+
+<!--bottom left joints-->
+    <joint name="base_bottom_left_arm_joint" type="fixed">
+        <parent link="base_link" />
+        <child link="bottom_left_arm" />
+        <origin xyz="-0.065 -0.065 0" rpy="0 0 0" />
+    </joint>
+
+    <joint name="bottom_left_arm_motor_joint" type="continuous">
+        <parent link="bottom_left_arm" />
+        <child link="motor_bottom_left_arm" />
+        <origin xyz="-0.125 -0.125 0" rpy="0 0 0" />
+        <axis xyz="0 0 -1" />
+    </joint>
+
+<!--landing joints-->
+</robot>
