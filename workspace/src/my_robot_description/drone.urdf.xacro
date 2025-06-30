@@ -1,0 +1,206 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://ros.org/wiki/xacro" name="Udaan">
+<gazebo reference="imu_link">
+  <sensor type="imu" name="imu_sensor">
+    <always_on>true</always_on>
+    <update_rate>100.0</update_rate>
+    <visualize>true</visualize>
+
+    <imu>
+      <angular_velocity>
+        <noise type="gaussian">
+          <mean>0.0</mean>
+          <stddev>0.01</stddev>
+          <bias_mean>0.0</bias_mean>
+          <bias_stddev>0.0</bias_stddev>
+        </noise>
+      </angular_velocity>
+      <linear_acceleration>
+        <noise type="gaussian">
+          <mean>0.0</mean>
+          <stddev>0.1</stddev>
+          <bias_mean>0.0</bias_mean>
+          <bias_stddev>0.0</bias_stddev>
+        </noise>
+      </linear_acceleration>
+    </imu>
+   <plugin name="imu_plugin" filename="libgazebo_ros_imu_sensor.so">
+  <ros>
+    <namespace>imu_plugin</namespace>
+    <remapping>imu/data:=/imu/data</remapping>
+  </ros>
+  <topicName>/imu/data</topicName>
+  <frameName>imu_link</frameName>
+   </plugin>
+
+  </sensor>
+</gazebo>
+
+<!--properties-->
+    <xacro:property name="arm_length" value="0.225"/>
+    <xacro:property name="arm_width" value="0.04"/>
+    <xacro:property name="arm_height" value="0.05"/>    
+    <xacro:property name="motor_radius" value="0.015"/>
+    <xacro:property name="motor_length" value="0.05"/>
+
+<!--colors-->
+    <material name="green">
+        <color rgba="0 1 0 1" />
+    </material>
+
+    <material name="blue">
+        <color rgba="0 0 1 1" />
+    </material>
+
+    <material name="red">
+        <color rgba="1 0 0 1" />
+    </material>
+
+    <material name="grey">
+        <color rgba="0.5 0.5 0.5 1" />
+    </material>
+
+<!--macros-->
+    <xacro:macro name="arm_link" params="name xyz rpy">
+        <link name="${name}">
+            <visual>
+                <geometry>
+                    <box size="${arm_length} ${arm_width} ${arm_height}"/>
+                </geometry>
+                <origin xyz="${xyz}" rpy="${rpy}"/>
+                <material name="grey"/>
+            </visual>
+            <inertial>
+                <mass value="0.1"/>
+                <inertia ixx="3.42e-05" ixy="0.0" ixz="0.0"
+                         iyy="4.43e-04" iyz="0.0" izz="4.35e-04"/>
+            </inertial>
+            <collision>
+                <geometry>
+                    <box size="${arm_length} ${arm_width} ${arm_height}"/>
+                </geometry>
+            </collision>
+        </link>
+    </xacro:macro>
+
+    <xacro:macro name="motor_link" params="name xyz rpy">
+        <link name="${name}">
+            <visual>
+                <geometry>
+                    <cylinder radius="${motor_radius}" length="${motor_length}"/>
+                </geometry>
+                <origin xyz="${xyz}" rpy="${rpy}"/>
+                <material name="blue"/>
+            </visual>
+            <inertial>
+                <mass value="0.05"/>
+                <inertia ixx="1.32e-05" ixy="0.0" ixz="0.0"
+                         iyy="1.32e-05" iyz="0.0" izz="5.63e-06"/>
+            </inertial>
+            <collision>
+                <geometry>
+                    <cylinder radius="${motor_radius}" length="${motor_length}"/>
+                </geometry>
+            </collision>
+        </link>
+    </xacro:macro>
+
+    <xacro:macro name="fixed_joint" params="name parent child xyz rpy">
+        <joint name="${name}" type="fixed">
+            <parent link="${parent}"/>
+            <child link="${child}"/>
+            <origin xyz="${xyz}" rpy="${rpy}"/>
+        </joint>
+    </xacro:macro>
+
+    <xacro:macro name="motor_joint" params="name parent child xyz axis">
+        <joint name="${name}" type="continuous">
+            <parent link="${parent}"/>
+            <child link="${child}"/>
+            <origin xyz="${xyz}" rpy="0 0 0"/>
+            <axis xyz="${axis}"/>
+        </joint>
+    </xacro:macro>
+
+<!--base link-->
+    <link name="base_link">
+        <visual>
+            <geometry>
+                <box size="0.15 0.15 0.05"/>
+            </geometry>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <material name="red"/>
+        </visual>
+        <inertial>
+            <mass value="0.750" />
+            <inertia ixx="0.0028125" ixy="0.0" ixz="0.0" 
+                     iyy="0.0028125" iyz="0.0" izz="0.0015625"/>
+        </inertial>
+        <collision>
+            <geometry>
+                <box size="0.15 0.15 0.05" />
+            </geometry>
+        </collision>
+    </link>
+
+    <gazebo reference="base_link">
+        <material>Gazebo/Red</material>
+    </gazebo>
+
+
+<!--top right part-->
+    <xacro:arm_link name="top_right_arm" xyz="0.075 0.075 0" rpy="0 0 0.785"/>
+    <xacro:motor_link name="motor_top_right_arm" xyz="0 0 0" rpy="0 0 0"/>
+    <xacro:fixed_joint name="base_top_right_arm_joint" parent="base_link" child="top_right_arm" xyz="0.065 0.065 0" rpy="0 0 0"/>
+    <xacro:motor_joint name="top_right_arm_motor_joint" parent="top_right_arm" child="motor_top_right_arm" xyz="0.125 0.125 0" axis="0 0 -1"/>
+
+<!--top left part-->
+    <xacro:arm_link name="top_left_arm" xyz="-0.075 0.075 0" rpy="0 0 -0.785"/>
+    <xacro:motor_link name="motor_top_left_arm" xyz="0 0 0" rpy="0 0 0"/>
+    <xacro:fixed_joint name="base_top_left_arm_joint" parent="base_link" child="top_left_arm" xyz="-0.065 0.065 0" rpy="0 0 0"/>
+    <xacro:motor_joint name="top_left_arm_motor_joint" parent="top_left_arm" child="motor_top_left_arm" xyz="-0.125 0.125 0" axis="0 0 1"/>     
+
+<!--bottom right part-->
+    <xacro:arm_link name="bottom_right_arm" xyz="0.075 -0.075 0" rpy="0 0 -0.785"/>
+    <xacro:motor_link name="motor_bottom_right_arm" xyz="0 0 0" rpy="0 0 0"/>
+    <xacro:fixed_joint name="base_bottom_right_arm_joint" parent="base_link" child="bottom_right_arm" xyz="0.065 -0.065 0" rpy="0 0 0"/>
+    <xacro:motor_joint name="bottom_right_arm_motor_joint" parent="bottom_right_arm" child="motor_bottom_right_arm" xyz="0.125 -0.125 0" axis="0 0 1"/> 
+
+<!--bottom left parts-->
+    <xacro:arm_link name="bottom_left_arm" xyz="-0.075 -0.075 0" rpy="0 0 -2.35"/>
+    <xacro:motor_link name="motor_bottom_left_arm" xyz="0 0 0" rpy="0 0 0"/>
+    <xacro:fixed_joint name="base_bottom_left_arm_joint" parent="base_link" child="bottom_left_arm" xyz="-0.065 -0.065 0" rpy="0 0 0"/>
+    <xacro:motor_joint name="bottom_left_arm_motor_joint" parent="bottom_left_arm" child="motor_bottom_left_arm" xyz="-0.125 -0.125 0" axis="0 0 -1"/>
+
+<!--sensor links-->
+    <link name="imu_link">
+        <visual>
+            <geometry>
+                <box size="0.05 0.05 0.01"/>
+            </geometry>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <material name="green"/>
+        </visual>
+        <inertial>
+            <mass value="0.01"/>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <inertia ixx="2.17e-06" ixy="0.0" ixz="0.0" 
+                     iyy="2.17e-06" iyz="0.0" izz="4.17e-06"/>
+        </inertial>
+        <collision>
+            <geometry>
+                <box size="0.05 0.05 0.01"/>
+            </geometry>
+        </collision>
+    </link>
+
+<!--sensor joints-->
+    <joint name="base_imu_joint" type="fixed">
+        <parent link="base_link"/>
+        <child link="imu_link"/>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+    </joint>
+
+<!--sensors-->
+ 
+</robot>
