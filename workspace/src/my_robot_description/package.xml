@@ -3,11 +3,11 @@
 <package format="3">
   <name>my_robot_description</name>
   <version>0.0.0</version>
-  <description>TODO: Package description</description>
-  <maintainer email="ansh@todo.todo">ansh</maintainer>
-  <license>TODO: License declaration</license>
+  <description>Drone description package for simulation</description>
+<maintainer email="ansh@example.com">Ansh Gupta</maintainer>
+<license>MIT</license>
 
-  <buildtool_depend>ament_cmake</buildtool_depend>
+<buildtool_depend>ament_cmake</buildtool_depend>
 
   <test_depend>ament_lint_auto</test_depend>
   <test_depend>ament_lint_common</test_depend>
@@ -16,3 +16,4 @@
     <build_type>ament_cmake</build_type>
   </export>
 </package>
+
