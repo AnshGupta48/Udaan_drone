@@ -1,5 +1,7 @@
 <?xml version="1.0"?>
 <robot xmlns:xacro="http://ros.org/wiki/xacro" name="Udaan">
+
+<!-- ===== IMU Sensor Plugin Block ===== -->
 <gazebo reference="imu_link">
   <sensor type="imu" name="imu_sensor">
     <always_on>true</always_on>
@@ -26,16 +28,17 @@
     </imu>
    <plugin name="imu_plugin" filename="libgazebo_ros_imu_sensor.so">
   <ros>
-    <namespace>imu_plugin</namespace>
     <remapping>imu/data:=/imu/data</remapping>
   </ros>
   <topicName>/imu/data</topicName>
   <frameName>imu_link</frameName>
+  <pose>0 0 0 0 0 0</pose>
    </plugin>
 
   </sensor>
 </gazebo>
 
+<!-- ===== LIDAR Sensor Plugin Block ===== -->
 <gazebo reference="lidar_link">
   <sensor name="lidar_sensor" type="ray">
     <pose>0 0 0 0 0 0</pose>
@@ -63,24 +66,25 @@
     </ray>
     <plugin name="gazebo_ros_laser_controller" filename="libgazebo_ros_ray_sensor.so">
       <ros>
-        <namespace>/</namespace>
-        <remapping>LIDAR_SCAN:=scan</remapping>
+        <remapping>LIDAR_SCAN:=/scan</remapping>
       </ros>
       <frame_name>lidar_link</frame_name>
+      <pose>0 0 0 0 0 0</pose>
     </plugin>
   </sensor>
 </gazebo>
 
+<!-- ===== Barometer Sensor Plugin Block ===== -->
 <gazebo reference="barometer_link">
   <sensor name="baro_sensor" type="altimeter">
     <pose>0 0 0 0 0 0</pose>
     <update_rate>10</update_rate>
     <plugin name="baro_plugin" filename="libgazebo_ros_altimeter.so">
       <ros>
-        <namespace>/</namespace>
-        <remapping>barometer:=barometer_data</remapping>
+        <remapping>barometer:=/barometer</remapping>
       </ros>
       <frame_name>barometer_link</frame_name>
+      <pose>0 0 0 0 0 0</pose>
     </plugin>
   </sensor>
 </gazebo>
@@ -121,6 +125,7 @@
             </visual>
             <inertial>
                 <mass value="0.1"/>
+                <origin xyz="0 0 0" rpy="0 0 0"/>
                 <inertia ixx="3.42e-05" ixy="0.0" ixz="0.0"
                          iyy="4.43e-04" iyz="0.0" izz="4.35e-04"/>
             </inertial>
@@ -143,6 +148,7 @@
             </visual>
             <inertial>
                 <mass value="0.05"/>
+                 <origin xyz="0 0 0" rpy="0 0 0"/>
                 <inertia ixx="1.32e-05" ixy="0.0" ixz="0.0"
                          iyy="1.32e-05" iyz="0.0" izz="5.63e-06"/>
             </inertial>
@@ -182,6 +188,7 @@
         </visual>
         <inertial>
             <mass value="0.750" />
+            <origin xyz="0 0 0" rpy="0 0 0"/>
             <inertia ixx="0.0028125" ixy="0.0" ixz="0.0" 
                      iyy="0.0028125" iyz="0.0" izz="0.0015625"/>
         </inertial>
@@ -196,32 +203,39 @@
         <material>Gazebo/Red</material>
     </gazebo>
 
+	<!-- Quad Arm and Motor Placement -->
 
 <!--top right part-->
     <xacro:arm_link name="top_right_arm" xyz="0.075 0.075 0" rpy="0 0 0.785"/>
     <xacro:motor_link name="motor_top_right_arm" xyz="0 0 0" rpy="0 0 0"/>
+    <!-- Joints: base_link ↔ top_right_arm ↔ motor_top_right_arm -->
     <xacro:fixed_joint name="base_top_right_arm_joint" parent="base_link" child="top_right_arm" xyz="0.065 0.065 0" rpy="0 0 0"/>
     <xacro:motor_joint name="top_right_arm_motor_joint" parent="top_right_arm" child="motor_top_right_arm" xyz="0.125 0.125 0" axis="0 0 -1"/>
 
 <!--top left part-->
     <xacro:arm_link name="top_left_arm" xyz="-0.075 0.075 0" rpy="0 0 -0.785"/>
     <xacro:motor_link name="motor_top_left_arm" xyz="0 0 0" rpy="0 0 0"/>
+    <!-- Joints: base_link ↔ top_left_arm ↔ motor_top_left_arm -->
     <xacro:fixed_joint name="base_top_left_arm_joint" parent="base_link" child="top_left_arm" xyz="-0.065 0.065 0" rpy="0 0 0"/>
     <xacro:motor_joint name="top_left_arm_motor_joint" parent="top_left_arm" child="motor_top_left_arm" xyz="-0.125 0.125 0" axis="0 0 1"/>     
 
 <!--bottom right part-->
     <xacro:arm_link name="bottom_right_arm" xyz="0.075 -0.075 0" rpy="0 0 -0.785"/>
     <xacro:motor_link name="motor_bottom_right_arm" xyz="0 0 0" rpy="0 0 0"/>
+    <!-- Joints: base_link ↔ bottom_right_arm ↔ motor_bottom_right_arm -->
     <xacro:fixed_joint name="base_bottom_right_arm_joint" parent="base_link" child="bottom_right_arm" xyz="0.065 -0.065 0" rpy="0 0 0"/>
     <xacro:motor_joint name="bottom_right_arm_motor_joint" parent="bottom_right_arm" child="motor_bottom_right_arm" xyz="0.125 -0.125 0" axis="0 0 1"/> 
 
-<!--bottom left parts-->
+<!--bottom left part-->
     <xacro:arm_link name="bottom_left_arm" xyz="-0.075 -0.075 0" rpy="0 0 -2.35"/>
     <xacro:motor_link name="motor_bottom_left_arm" xyz="0 0 0" rpy="0 0 0"/>
+    <!-- Joints: base_link ↔ bottom_left_arm ↔ motor_bottom_left_arm -->
     <xacro:fixed_joint name="base_bottom_left_arm_joint" parent="base_link" child="bottom_left_arm" xyz="-0.065 -0.065 0" rpy="0 0 0"/>
     <xacro:motor_joint name="bottom_left_arm_motor_joint" parent="bottom_left_arm" child="motor_bottom_left_arm" xyz="-0.125 -0.125 0" axis="0 0 -1"/>
 
 <!--sensor links-->
+
+<!-- IMU Sensor Link -->
     <link name="imu_link">
         <visual>
             <geometry>
@@ -243,6 +257,7 @@
         </collision>
     </link>
 
+	<!-- LiDAR Sensor Link -->
     <link name="lidar_link">
         <visual>
             <geometry>
@@ -258,10 +273,12 @@
         </collision>
         <inertial>
             <mass value="0.2"/>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
             <inertia ixx="1e-5" ixy="0" ixz="0" iyy="1e-5" iyz="0" izz="1e-5"/>
         </inertial>
     </link>
 
+<!-- Barometer Sensor Link -->
     <link name="barometer_link">
         <visual>
             <geometry>
@@ -277,6 +294,7 @@
         </collision>
         <inertial>
             <mass value="0.05"/>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
             <inertia ixx="1e-5" ixy="0" ixz="0" iyy="1e-5" iyz="0" izz="1e-5"/>
         </inertial>
     </link>
@@ -306,3 +324,4 @@
 <!--sensors-->
  
 </robot>
+<!-- END OF ROBOT DEFINITION -->
