@@ -80,14 +80,12 @@
     <pose>0 0 0 0 0 0</pose>
     <update_rate>10</update_rate>
     <plugin name="baro_plugin" filename="libgazebo_ros_altimeter.so">
-      <ros>
-        <remapping>barometer:=/barometer</remapping>
-      </ros>
+      <topic_name>/barometer/data</topic_name>
       <frame_name>barometer_link</frame_name>
-      <pose>0 0 0 0 0 0</pose>
     </plugin>
   </sensor>
 </gazebo>
+
 
 <!--properties-->
     <xacro:property name="arm_length" value="0.225"/>
@@ -310,13 +308,13 @@
     <joint name="lidar_joint" type="fixed">
         <parent link="base_link"/>
         <child link="lidar_link"/>
-        <origin xyz="0 0 0.1" rpy="0 0 0"/>
+        <origin xyz="0 0 0.2" rpy="0 0 0"/>
     </joint>
 
     <joint name="barometer_joint" type="fixed">
         <parent link="base_link"/>
         <child link="barometer_link"/>
-        <origin xyz="0 0 0.05" rpy="0 0 0"/>
+        <origin xyz="0 0 0.25" rpy="0 0 0"/>
     </joint>
 
 
