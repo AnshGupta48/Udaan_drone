@@ -8,9 +8,21 @@ find_package(rclpy REQUIRED)
 # If you have URDF/Xacro or other dependencies, include them here:
 # find_package(urdf REQUIRED)
 
+# Install world files
+install(
+  DIRECTORY worlds
+  DESTINATION share/${PROJECT_NAME}
+)
+
 # Install launch and URDF files
 install(
   DIRECTORY launch urdf
+  DESTINATION share/${PROJECT_NAME}
+)
+
+# Install sensor bridge YAML configs for ros_gz_bridge
+install(
+  DIRECTORY config
   DESTINATION share/${PROJECT_NAME}
 )
 
@@ -29,4 +41,3 @@ if(BUILD_TESTING)
 endif()
 
 ament_package()
-
