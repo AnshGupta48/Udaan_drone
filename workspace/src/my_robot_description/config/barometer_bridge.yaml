@@ -1,0 +1,5 @@
+- ros_topic_name: "/barometer/data"
+  gz_topic_name: "/barometer/data"
+  ros_type_name: "sensor_msgs/msg/FluidPressure"
+  gz_type_name: "gz.msgs.FluidPressure"
+  direction: GZ_TO_ROS
