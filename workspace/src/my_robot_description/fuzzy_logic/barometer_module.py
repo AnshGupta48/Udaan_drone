@@ -23,3 +23,9 @@ class BarometerProcessor(Node):
     def get_altitude(self):
         # Provides the latest altitude to the fuzzy logic controller
         return self.altitude
+def main(args=None):
+    rclpy.init(args=args)
+    node = BarometerProcessor()
+    rclpy.spin(node)
+    node.destroy_node()
+    rclpy.shutdown()
