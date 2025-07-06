@@ -36,3 +36,9 @@ class LidarProcessor(Node):
             'closest': self.closest_distance,
             'front': self.front_distance
         }
+def main(args=None):
+    rclpy.init(args=args)
+    node = LidarProcessor()
+    rclpy.spin(node)
+    node.destroy_node()
+    rclpy.shutdown()
