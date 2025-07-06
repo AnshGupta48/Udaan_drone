@@ -45,3 +45,9 @@ class ImuProcessor(Node):
             'linear_acc': self.linear_acc,
             'angular_vel': self.angular_vel
         }
+def main(args=None):
+    rclpy.init(args=args)
+    node = ImuProcessor()
+    rclpy.spin(node)
+    node.destroy_node()
+    rclpy.shutdown()
