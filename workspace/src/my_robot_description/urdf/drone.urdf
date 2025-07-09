@@ -1,0 +1,610 @@
+<?xml version="1.0"?>
+<robot name="Udaan">
+
+<!-- ===== Colors ===== -->
+    <material name="green">
+        <color rgba="0 1 0 1" />
+    </material>
+
+    <material name="blue">
+        <color rgba="0 0 1 1" />
+    </material>
+
+    <material name="red">
+        <color rgba="1 0 0 1" />
+    </material>
+
+    <material name="grey">
+        <color rgba="0.5 0.5 0.5 1" />
+    </material>
+
+<!-- ===== Base Link ===== -->
+
+    <link name="base_link">
+        <visual>
+            <geometry>
+                <box size="0.15 0.15 0.05"/>
+            </geometry>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <material name="red"/>
+        </visual>
+        <inertial>
+            <mass value="0.750" />
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <inertia ixx="0.0028125" ixy="0.0" ixz="0.0" 
+                     iyy="0.0028125" iyz="0.0" izz="0.0015625"/>
+        </inertial>
+        <collision>
+            <geometry>
+                <box size="0.15 0.15 0.05" />
+            </geometry>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+        </collision>
+    </link>
+
+<!-- ===== Quad Arms and Motors ===== -->
+
+    <!-- Top Right Arm -->
+    <link name="top_right_arm">
+        <visual>
+            <geometry>
+                <box size="0.225 0.04 0.05"/>
+            </geometry>
+            <origin xyz="0.075 0.075 0" rpy="0 0 0.785"/>
+            <material name="grey"/>
+        </visual>
+        <inertial>
+            <mass value="0.1"/>
+            <origin xyz="0.075 0.075 0" rpy="0 0 0.785"/>
+            <inertia ixx="3.42e-05" ixy="0.0" ixz="0.0"
+                     iyy="4.43e-04" iyz="0.0" izz="4.35e-04"/>
+            </inertial>
+            <collision>
+                <geometry>
+                    <box size="0.225 0.04 0.05"/>
+            </geometry>
+            <origin xyz="0.075 0.075 0" rpy="0 0 0.785"/>
+        </collision>
+    </link>
+
+    <joint name="base_top_right_arm_joint" type="fixed">
+        <parent link="base_link"/>
+        <child link="top_right_arm"/>
+        <origin xyz="0.065 0.065 0" rpy="0 0 0"/>
+    </joint>
+
+    <!-- Top Right Motor -->
+    <link name="motor_top_right_arm">
+        <visual>
+            <geometry>
+                <cylinder radius="0.015" length="0.05"/>
+            </geometry>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <material name="blue"/>
+        </visual>
+        <inertial>
+            <mass value="0.05"/>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <inertia ixx="1.32e-05" ixy="0.0" ixz="0.0"
+                     iyy="1.32e-05" iyz="0.0" izz="5.63e-06"/>
+        </inertial>
+        <collision>
+            <geometry>
+                <cylinder radius="0.015" length="0.05"/>
+            </geometry>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+        </collision>
+    </link>
+
+    <joint name="top_right_arm_motor_joint" type="continuous">
+        <parent link="top_right_arm"/>
+        <child link="motor_top_right_arm"/>
+        <origin xyz="0.125 0.125 0" rpy="0 0 0"/>
+        <axis xyz="0 0 -1"/>
+        <limit effort="1000" velocity="1000"/>
+        <dynamics damping="0.1" friction="0.1"/>
+    </joint>
+
+    <!-- Top Left Arm -->
+    <link name="top_left_arm">
+        <visual>
+            <geometry>
+                <box size="0.225 0.04 0.05"/>
+            </geometry>
+            <origin xyz="-0.075 0.075 0" rpy="0 0 -0.785"/>
+            <material name="grey"/>
+        </visual>
+        <inertial>
+            <mass value="0.1"/>
+            <origin xyz="-0.075 0.075 0" rpy="0 0 -0.785"/>
+            <inertia ixx="3.42e-05" ixy="0.0" ixz="0.0"
+                     iyy="4.43e-04" iyz="0.0" izz="4.35e-04"/>
+            </inertial>
+            <collision>
+                <geometry>
+                    <box size="0.225 0.04 0.05"/>
+            </geometry>
+            <origin xyz="-0.075 0.075 0" rpy="0 0 -0.785"/>
+        </collision>
+    </link>
+
+    <joint name="base_top_left_arm_joint" type="fixed">
+        <parent link="base_link"/>
+        <child link="top_left_arm"/>
+        <origin xyz="-0.065 0.065 0" rpy="0 0 0"/>
+    </joint>
+
+    <!-- Top Left Motor -->
+    <link name="motor_top_left_arm">
+        <visual>
+            <geometry>
+                <cylinder radius="0.015" length="0.05"/>
+            </geometry>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <material name="blue"/>
+        </visual>
+        <inertial>
+            <mass value="0.05"/>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <inertia ixx="1.32e-05" ixy="0.0" ixz="0.0"
+                     iyy="1.32e-05" iyz="0.0" izz="5.63e-06"/>
+        </inertial>
+        <collision>
+            <geometry>
+                <cylinder radius="0.015" length="0.05"/>
+            </geometry>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+        </collision>
+    </link>
+
+    <joint name="top_left_arm_motor_joint" type="continuous">
+        <parent link="top_left_arm"/>
+        <child link="motor_top_left_arm"/>
+        <origin xyz="-0.125 0.125 0" rpy="0 0 0"/>
+        <axis xyz="0 0 1"/>
+        <limit effort="1000" velocity="1000"/>
+        <dynamics damping="0.1" friction="0.1"/>
+    </joint>
+
+    <!-- Bottom Right Arm -->
+    <link name="bottom_right_arm">
+        <visual>
+            <geometry>
+                <box size="0.225 0.04 0.05"/>
+            </geometry>
+            <origin xyz="0.075 -0.075 0" rpy="0 0 -0.785"/>
+            <material name="grey"/>
+        </visual>
+        <inertial>
+            <mass value="0.1"/>
+            <origin xyz="0.075 -0.075 0" rpy="0 0 -0.785"/>
+            <inertia ixx="3.42e-05" ixy="0.0" ixz="0.0"
+                     iyy="4.43e-04" iyz="0.0" izz="4.35e-04"/>
+            </inertial>
+            <collision>
+                <geometry>
+                    <box size="0.225 0.04 0.05"/>
+            </geometry>
+            <origin xyz="0.075 -0.075 0" rpy="0 0 -0.785"/>
+        </collision>
+    </link>
+
+    <joint name="base_bottom_right_arm_joint" type="fixed">
+        <parent link="base_link"/>
+        <child link="bottom_right_arm"/>
+        <origin xyz="0.065 -0.065 0" rpy="0 0 0"/>
+    </joint>
+
+    <!-- Bottom Right Motor -->
+    <link name="motor_bottom_right_arm">
+        <visual>
+            <geometry>
+                <cylinder radius="0.015" length="0.05"/>
+            </geometry>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <material name="blue"/>
+        </visual>
+        <inertial>
+            <mass value="0.05"/>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <inertia ixx="1.32e-05" ixy="0.0" ixz="0.0"
+                     iyy="1.32e-05" iyz="0.0" izz="5.63e-06"/>
+        </inertial>
+        <collision>
+            <geometry>
+                <cylinder radius="0.015" length="0.05"/>
+            </geometry>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+        </collision>
+    </link>
+
+    <joint name="bottom_right_arm_motor_joint" type="continuous">
+        <parent link="bottom_right_arm"/>
+        <child link="motor_bottom_right_arm"/>
+        <origin xyz="0.125 -0.125 0" rpy="0 0 0"/>
+        <axis xyz="0 0 1"/>
+        <limit effort="1000" velocity="1000"/>
+        <dynamics damping="0.1" friction="0.1"/>
+    </joint>
+
+    <!-- Bottom Left Arm -->
+    <link name="bottom_left_arm">
+        <visual>
+            <geometry>
+                <box size="0.225 0.04 0.05"/>
+            </geometry>
+            <origin xyz="-0.075 -0.075 0" rpy="0 0 -2.35"/>
+            <material name="grey"/>
+        </visual>
+        <inertial>
+            <mass value="0.1"/>
+            <origin xyz="-0.075 -0.075 0" rpy="0 0 -2.35"/>
+            <inertia ixx="3.42e-05" ixy="0.0" ixz="0.0"
+                     iyy="4.43e-04" iyz="0.0" izz="4.35e-04"/>
+            </inertial>
+            <collision>
+                <geometry>
+                    <box size="0.225 0.04 0.05"/>
+            </geometry>
+            <origin xyz="-0.075 -0.075 0" rpy="0 0 -2.35"/>
+        </collision>
+    </link>
+
+    <joint name="base_bottom_left_arm_joint" type="fixed">
+        <parent link="base_link"/>
+        <child link="bottom_left_arm"/>
+        <origin xyz="-0.065 -0.065 0" rpy="0 0 0"/>
+    </joint>
+
+    <!-- Bottom Left Motor -->
+    <link name="motor_bottom_left_arm">
+        <visual>
+            <geometry>
+                <cylinder radius="0.015" length="0.05"/>
+            </geometry>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <material name="blue"/>
+        </visual>
+        <inertial>
+            <mass value="0.05"/>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <inertia ixx="1.32e-05" ixy="0.0" ixz="0.0"
+                     iyy="1.32e-05" iyz="0.0" izz="5.63e-06"/>
+        </inertial>
+        <collision>
+            <geometry>
+                <cylinder radius="0.015" length="0.05"/>
+            </geometry>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+        </collision>
+    </link>
+
+    <joint name="bottom_left_arm_motor_joint" type="continuous">
+        <parent link="bottom_left_arm"/>
+        <child link="motor_bottom_left_arm"/>
+        <origin xyz="-0.125 -0.125 0" rpy="0 0 0"/>
+        <axis xyz="0 0 -1"/>
+        <limit effort="1000" velocity="1000"/>
+        <dynamics damping="0.1" friction="0.1"/>
+    </joint>
+
+<!-- ===== Landing Gears ===== -->
+
+    <!-- Top leg -->
+    <link name="top_leg">
+        <visual>
+            <geometry>
+                <cylinder radius="0.012" length="0.24"/>
+            </geometry>
+            <origin xyz="0.125 0 -0.13" rpy="0 -0.52 0"/>
+            <material name="grey"/>
+        </visual>
+        <inertial>
+            <mass value="0.04"/>
+            <origin xyz="0.125 0 -0.13" rpy="0 -0.52 0"/>
+            <inertia ixx="1e-6" ixy="0" ixz="0" iyy="1e-6" iyz="0" izz="1e-6"/>
+        </inertial>
+        <collision>
+            <geometry>
+                <cylinder radius="0.012" length="0.24"/>
+            </geometry>
+            <origin xyz="0.125 0 -0.13" rpy="0 -0.52 0"/>
+        </collision>
+    </link>
+
+    <joint name="base_top_leg_joint" type="fixed">
+        <parent link="base_link"/>
+        <child link="top_leg"/>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+    </joint>
+
+    <!-- Bottom Leg -->
+    <link name="bottom_leg">
+        <visual>
+            <geometry>
+                <cylinder radius="0.012" length="0.24"/>
+            </geometry>
+            <origin xyz="-0.125 0 -0.13" rpy="0 0.52 0"/>
+            <material name="grey"/>
+        </visual>
+        <inertial>
+            <mass value="0.04"/>
+           <origin xyz="-0.125 0 -0.13" rpy="0 0.52 0"/>
+            <inertia ixx="1e-6" ixy="0" ixz="0" iyy="1e-6" iyz="0" izz="1e-6"/>
+        </inertial>
+        <collision>
+            <geometry>
+                <cylinder radius="0.012" length="0.24"/>
+            </geometry>
+           <origin xyz="-0.125 0 -0.13" rpy="0 0.52 0"/>
+        </collision>
+    </link>
+
+    <joint name="base_bottom_leg_joint" type="fixed">
+        <parent link="base_link"/>
+        <child link="bottom_leg"/>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+    </joint>
+
+    <!-- Top Foot  -->
+    <link name="foot_top_leg">
+        <visual>
+            <geometry>
+                <cylinder radius="0.014" length="0.2"/>
+            </geometry>
+            <origin xyz="0 0 0" rpy="1.5708 0 0"/>
+            <material name="blue"/>
+        </visual>
+        <inertial>
+            <mass value="0.02"/>
+            <origin xyz="0 0 0" rpy="1.5708 0 0"/>
+            <inertia ixx="1e-6" ixy="0" ixz="0" iyy="1e-6" iyz="0" izz="1e-6"/>
+        </inertial>
+        <collision>
+            <geometry>
+                <cylinder radius="0.014" length="0.18"/>
+            </geometry>
+            <origin xyz="0 0 0" rpy="1.5708 0 0"/>
+        </collision>
+    </link>
+
+    <joint name="top_leg_foot_joint" type="fixed">
+        <parent link="top_leg"/>
+        <child link="foot_top_leg"/>
+        <origin xyz="0.19 0 -0.24" rpy="0 0 0"/>
+    </joint>
+
+    <!-- Bottom Foot -->
+    <link name="foot_bottom_leg">
+        <visual>
+            <geometry>
+                <cylinder radius="0.014" length="0.2"/>
+            </geometry>
+            <origin xyz="0 0 0" rpy="1.5708 0 0"/>
+            <material name="blue"/>
+        </visual>
+        <inertial>
+            <mass value="0.02"/>
+            <origin xyz="0 0 0" rpy="1.5708 0 0"/>
+            <inertia ixx="1e-6" ixy="0" ixz="0" iyy="1e-6" iyz="0" izz="1e-6"/>
+        </inertial>
+        <collision>
+            <geometry>
+                <cylinder radius="0.014" length="0.18"/>
+            </geometry>
+            <origin xyz="0 0 0" rpy="1.5708 0 0"/>
+        </collision>
+    </link>
+
+    <joint name="bottom_leg_foot_joint" type="fixed">
+        <parent link="bottom_leg"/>
+        <child link="foot_bottom_leg"/>
+        <origin xyz="-0.19 0 -0.24" rpy="0 0 0"/>
+    </joint>
+
+<!-- ===== Sensors ===== -->
+
+    <!-- IMU Sensor -->
+    <link name="imu_link">
+        <visual>
+            <geometry>
+                <box size="0.05 0.05 0.01"/>
+            </geometry>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <material name="green"/>
+        </visual>
+        <inertial>
+            <mass value="0.01"/>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <inertia ixx="2.17e-06" ixy="0.0" ixz="0.0" 
+                     iyy="2.17e-06" iyz="0.0" izz="4.17e-06"/>
+        </inertial>
+        <collision>
+            <geometry>
+                <box size="0.05 0.05 0.01"/>
+            </geometry>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+        </collision>
+    </link>
+
+    <joint name="base_imu_joint" type="fixed">
+        <parent link="base_link"/>
+        <child link="imu_link"/>
+        <origin xyz="0 0 0.03" rpy="0 0 0"/>
+    </joint>
+
+    <!-- LiDAR Sensor -->
+    <link name="lidar_link">
+        <visual>
+            <geometry>
+                <cylinder radius="0.03" length="0.02"/>
+            </geometry>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <material name="green"/>
+        </visual>
+        <inertial>
+            <mass value="0.2"/>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <inertia ixx="1e-5" ixy="0" ixz="0" iyy="1e-5" iyz="0" izz="1e-5"/>
+        </inertial>
+        <collision>
+            <geometry>
+                <cylinder radius="0.03" length="0.02"/>
+            </geometry>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+        </collision>
+    </link>
+
+    <joint name="lidar_joint" type="fixed">
+        <parent link="base_link"/>
+        <child link="lidar_link"/>
+        <origin xyz="0 0 0.2" rpy="0 0 0"/>
+    </joint>
+
+    <!-- Barometer Sensor -->
+    <link name="barometer_link">
+        <visual>
+            <geometry>
+                <box size="0.02 0.02 0.005"/>
+            </geometry>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <material name="blue"/>
+        </visual>
+        <inertial>
+            <mass value="0.05"/>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <inertia ixx="1e-5" ixy="0" ixz="0" iyy="1e-5" iyz="0" izz="1e-5"/>
+        </inertial>
+        <collision>
+            <geometry>
+                <box size="0.02 0.02 0.005"/>
+            </geometry>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+        </collision>
+    </link>
+
+    <joint name="barometer_joint" type="fixed">
+        <parent link="base_link"/>
+        <child link="barometer_link"/>
+        <origin xyz="0 0 0.25" rpy="0 0 0"/>
+    </joint>
+
+<!-- ===== Gazebo Materials ===== -->
+
+    <gazebo reference="base_link">
+        <material>Gazebo/Red</material>
+    </gazebo>
+
+    <gazebo reference="imu_link">
+        <material>Gazebo/Green</material>
+    </gazebo>
+
+    <gazebo reference="lidar_link">
+        <material>Gazebo/Green</material>
+    </gazebo>
+
+    <gazebo reference="barometer_link">
+        <material>Gazebo/Blue</material>
+    </gazebo>
+
+<!-- ===== Plugins ===== -->
+
+    <!-- IMU Sensor-->
+    <gazebo reference="imu_link">
+        <sensor type="imu" name="imu_sensor">
+            <always_on>true</always_on>
+            <update_rate>100.0</update_rate>
+            <visualize>true</visualize>
+            <imu>
+                <angular_velocity>
+                    <noise type="gaussian">
+                        <mean>0.0</mean>
+                        <stddev>0.01</stddev>
+                        <bias_mean>0.0</bias_mean>
+                        <bias_stddev>0.0</bias_stddev>
+                    </noise>
+                </angular_velocity>
+                <linear_acceleration>
+                    <noise type="gaussian">
+                        <mean>0.0</mean>
+                        <stddev>0.1</stddev>
+                        <bias_mean>0.0</bias_mean>
+                        <bias_stddev>0.0</bias_stddev>
+                    </noise>
+                </linear_acceleration>
+            </imu>
+            <plugin name="imu_plugin" filename="libgazebo_ros_imu_sensor.so">
+                <ros>
+                    <remapping>imu/data:=/imu/data</remapping>
+                </ros>
+                <topicName>/imu/data</topicName>
+                <frame_name>imu_link</frame_name>
+            </plugin>
+        </sensor>
+    </gazebo>
+
+    <!-- LiDAR Sensor -->
+    <gazebo reference="lidar_link">
+        <sensor name="lidar_sensor" type="ray">
+            <pose>0 0 0 0 0 0</pose>
+            <visualize>true</visualize>
+            <update_rate>10</update_rate>
+            <ray>
+                <scan>
+                    <horizontal>
+                        <samples>360</samples>
+                        <resolution>1</resolution>
+                        <min_angle>-3.14</min_angle>
+                        <max_angle>3.14</max_angle>
+                    </horizontal>
+                </scan>
+                <range>
+                    <min>0.1</min>
+                    <max>10.0</max>
+                    <resolution>0.01</resolution>
+                </range>
+                <noise>
+                    <type>gaussian</type>
+                    <mean>0.0</mean>
+                    <stddev>0.01</stddev>
+                </noise>
+            </ray>
+            <plugin name="gazebo_ros_laser_controller" filename="libgazebo_ros_ray_sensor.so">
+                <ros>
+                    <remapping>scan:=scan</remapping>
+                </ros>
+                <frame_name>lidar_link</frame_name>
+                <pose>0 0 0 0 0 0</pose>
+            </plugin>
+        </sensor>
+    </gazebo>
+
+    <!-- Barometer Sensor -->
+    <gazebo reference="barometer_link">
+        <sensor name="baro_sensor" type="altimeter">
+            <pose>0 0 0 0 0 0</pose>
+            <update_rate>10</update_rate>
+            <plugin name="baro_plugin" filename="libgazebo_ros_altimeter.so">
+            <topic_name>/barometer/data</topic_name>    
+            <frame_name>barometer_link</frame_name>
+            </plugin>
+        </sensor>
+    </gazebo>
+
+    <!-- Multicopter Control -->
+    <gazebo>
+        <plugin name="multicopter_base_plugin" filename="libgazebo_ros_multicopter.so">
+            <ros>
+                <namespace>/udaan</namespace>
+                <remapping>cmd_vel:=cmd_vel</remapping>
+            </ros>
+            <motor_number>4</motor_number>
+            <motor_speed_ref>838</motor_speed_ref>
+            <motor_torque_ref>8.38</motor_torque_ref>
+            <body_name>base_link</body_name>
+            <imu_topic>/udaan/imu/data</imu_topic>
+            <motor_velocity_slowdown_sim>10</motor_velocity_slowdown_sim>
+        </plugin>
+    </gazebo>
+
+</robot>
